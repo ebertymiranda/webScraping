@@ -1,5 +1,5 @@
 import pandas as pd
-import json, os
+import json
 
 
 def check_coordinates(lat, long):
@@ -20,7 +20,7 @@ def main():
     dados_nasa = 'Dados.csv'
     array = []
 
-    #selecionadas apenas as colunas de latitude e longitude
+    #selecionadas apenas as colunas de latitude, longitude e data de aquisição
     col_lat_long = pd.read_csv(dados_nasa, usecols=['latitude', 'longitude','acq_date'])
 
     for index, linha in col_lat_long.iterrows():
@@ -33,8 +33,7 @@ def main():
     file = open("exported-data.json", "w")
     file.write(formatted_json);
 
-    # the result is a JSON string:
-
 
 if __name__ == '__main__':
     main()
+
