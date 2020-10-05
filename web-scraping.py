@@ -10,8 +10,8 @@ soup = BeautifulSoup(r.text, 'lxml')
 listaLeituras = soup.find_all('table')
 
 url = 'https://firms.modaps.eosdis.nasa.gov'
-for lista_td in listaLeituras:
-    lista = lista_td.find_all('a')
+for lista_a in listaLeituras:
+    lista = lista_a.find_all('a')
     for listaDados in lista:
         if listaDados.name == 'a':
             filtro = 'J1_VIIRS_C2_South_America_24h.csv'

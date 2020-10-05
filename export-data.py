@@ -1,16 +1,6 @@
-# import pandas as pd
-#
-# # -8.947866 , -60.515091 esquerda cima
-# # -9.836922 , -50.416322
-# # -17.736736 , -52.311547
-#
-#
-# dados_nasa = pd.read_csv('Dados.csv')
-#
-# pontos_mato_grosso = dados_nasa[dados_nasa['longitude'] >= -61];
-# print(pontos_mato_grosso.head())
+import pandas as pd
+import json, os
 
-# -15.592320, -56.086179
 
 def check_coordinates(lat, long):
     top_left = (-8.947866, -60.515091)
@@ -22,11 +12,28 @@ def check_coordinates(lat, long):
             and top_right[0] >= lat >= bottom_right[0]):
         if (top_left[1] <= long <= top_right[1]
                 and bottom_left[1] <= long <= bottom_right[1]):
-            print('sucesso')
+            return True
 
 
 def main():
-    check_coordinates(-15.592320, -56.086179)
+    # check_coordinates(-15.592320, -56.086179)
+    dados_nasa = 'Dados.csv'
+    array = []
+
+    #selecionadas apenas as colunas de latitude e longitude
+    col_lat_long = pd.read_csv(dados_nasa, usecols=['latitude', 'longitude','acq_date'])
+
+    for index, linha in col_lat_long.iterrows():
+        if (check_coordinates(linha.latitude, linha.longitude)):
+            array.append({"latitude":linha.latitude, "longitude": linha.longitude, "data":linha.acq_date})
+
+    # convert into JSON:
+    formatted_json = json.dumps(array)
+
+    file = open("exported-data.json", "w")
+    file.write(formatted_json);
+
+    # the result is a JSON string:
 
 
 if __name__ == '__main__':
